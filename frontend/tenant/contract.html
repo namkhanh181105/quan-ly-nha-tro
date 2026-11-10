@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hợp Đồng &amp; Bàn Giao Tài Sản - Cổng Cư Dân CCMN</title>
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/tenant.css">
+</head>
+<body>
+  <div class="tenant-wrapper">
+    <!-- SIDEBAR CƯ DÂN -->
+    <div id="tenant-sidebar"></div>
+
+    <div class="tenant-main">
+      <!-- HEADER CƯ DÂN -->
+      <div id="tenant-header"></div>
+
+      <main class="tenant-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1">Thông Tin Hợp Đồng Thuê &amp; Bàn Giao Thiết Bị</h4>
+            <p class="text-muted small mb-0">Tra cứu các điều khoản hợp đồng thuê phòng, danh mục nội thất và gửi yêu cầu gia hạn/trả phòng</p>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- BÊN TRÁI: CHI TIẾT HỢP ĐỒNG & BÀN GIAO TÀI SẢN -->
+          <div class="col-lg-7">
+            <!-- THẺ ĐIỀU KHOẢN HỢP ĐỒNG -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0 text-dark">
+                  <i class="bi bi-file-earmark-text-fill text-primary me-2"></i>Điều Khoản Thuê Phòng
+                </h5>
+                <span class="badge bg-success fs-6 px-3 py-2" id="contractStatusBadge">Đang hiệu lực</span>
+              </div>
+
+              <div class="row g-3 mb-4">
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3">
+                    <div class="text-muted small">Căn phòng thuê</div>
+                    <div class="fw-bold fs-5 text-dark" id="contractRoomNumber">Đang tải...</div>
+                    <div class="small text-muted" id="contractRoomLocation">--</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3">
+                    <div class="text-muted small">Giá thuê hàng tháng</div>
+                    <div class="fw-bold fs-5 text-success" id="contractRoomPrice">0 đ</div>
+                    <div class="small text-muted" id="contractDeposit">Tiền cọc: 0 đ</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3">
+                    <div class="text-muted small">Ngày bắt đầu thuê</div>
+                    <div class="fw-bold text-dark" id="contractStartDate">--/--/----</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3">
+                    <div class="text-muted small">Ngày kết thúc hợp đồng</div>
+                    <div class="fw-bold text-dark" id="contractEndDate">--/--/----</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3">
+                    <div class="text-muted small">Đơn giá điện</div>
+                    <div class="fw-bold text-primary" id="contractElectricityRate">-- đ/kWh</div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="p-3 bg-light rounded-3">
+                    <div class="text-muted small">Đơn giá nước</div>
+                    <div class="fw-bold text-primary" id="contractWaterRate">-- đ/m³</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- DANH MỤC TRANG THIẾT BỊ BÀN GIAO -->
+              <h6 class="fw-bold text-dark mb-2">
+                <i class="bi bi-card-checklist text-success me-2"></i>Biên Bản Kiểm Kê Tài Sản &amp; Nội Thất Khi Bàn Giao
+              </h6>
+              <div class="p-3 bg-light rounded-3 text-secondary lh-base small" id="contractNotesContainer">
+                Đang tải biên bản bàn giao thiết bị...
+              </div>
+            </div>
+          </div>
+
+          <!-- BÊN PHẢI: GỬI YÊU CẦU GIA HẠN / TRẢ PHÒNG -->
+          <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+              <h5 class="fw-bold mb-3 text-dark">
+                <i class="bi bi-send-fill text-primary me-2"></i>Yêu Cầu Gia Hạn / Trả Phòng
+              </h5>
+              <p class="text-muted small mb-4">
+                Nếu bạn có nhu cầu ký tiếp hợp đồng thuê hoặc có kế hoạch chuyển đi, vui lòng gửi thông báo trước ít nhất 15-30 ngày theo quy chế tòa nhà.
+              </p>
+
+              <!-- HIỂN THỊ TRẠNG THÁI HIỆN TẠI NẾU ĐÃ GỬI (#currentExtensionBox) -->
+              <div id="currentExtensionBox" class="mb-4 d-none">
+                <!-- Render trạng thái bằng JS -->
+              </div>
+
+              <!-- FORM: #extensionRequestForm (Gửi POST backend/api/tenant/contract/request_extension.php) -->
+              <form id="extensionRequestForm">
+                <div class="mb-3">
+                  <label class="form-label small fw-semibold text-secondary">Loại nguyện vọng <span class="text-danger">*</span></label>
+                  <select class="form-select" id="extensionType" required>
+                    <option value="requested_extension">Ký tiếp / Gia hạn thêm thời hạn hợp đồng</option>
+                    <option value="requested_leave">Xin kết thúc hợp đồng &amp; Trả phòng</option>
+                  </select>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label small fw-semibold text-secondary">Chi tiết nguyện vọng &amp; Ngày dự kiến <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="extensionNote" rows="4" required placeholder="VD: Em muốn gia hạn thêm 6 tháng nữa / Em dự kiến chuyển đi vào ngày 30/12/2026, nhờ BQL kiểm tra lịch hoàn cọc..."></textarea>
+                </div>
+
+                <!-- NÚT: #btnSubmitExtension (Submit form gửi yêu cầu) -->
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm" id="btnSubmitExtension">
+                  <i class="bi bi-send-check me-1"></i> Gửi yêu cầu tới Ban Quản Lý
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/tenant/contract.js"></script>
+</body>
+</html>
+

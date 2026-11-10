@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ Sơ Cư Dân - Cổng Cư Dân CCMN</title>
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/tenant.css">
+</head>
+<body>
+  <div class="tenant-wrapper">
+    <!-- SIDEBAR CƯ DÂN -->
+    <div id="tenant-sidebar"></div>
+
+    <div class="tenant-main">
+      <!-- HEADER CƯ DÂN -->
+      <div id="tenant-header"></div>
+
+      <main class="tenant-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1">Hồ Sơ Cá Nhân &amp; Tài Khoản Cư Dân</h4>
+            <p class="text-muted small mb-0">Quản lý thông tin định danh tạm trú, biển số xe và bảo mật tài khoản</p>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- CỘT THÔNG TIN CÁ NHÂN -->
+          <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white mb-4">
+              <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-person-lines-fill text-primary me-2"></i>Thông Tin Cư Dân</h5>
+              <p class="text-muted small mb-4">Thông tin dùng để khai báo tạm trú và liên hệ khẩn cấp với Ban Quản Lý.</p>
+
+              <!-- FORM: #tenantProfileForm (Gửi FormData/JSON tới POST backend/api/tenant/profile/update.php) -->
+              <form id="tenantProfileForm" enctype="multipart/form-data">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                  <img src="../assets/images/default-avatar.png" id="profileAvatarPreview" class="rounded-circle border" style="width: 70px; height: 70px; object-fit: cover;" alt="Avatar">
+                  <div>
+                    <label class="form-label small fw-semibold text-secondary mb-1">Ảnh đại diện cư dân</label>
+                    <input type="file" class="form-control form-control-sm" id="tenantAvatarFile" accept="image/png, image/jpeg, image/webp">
+                    <div class="form-text small" style="font-size: 0.75rem;">Định dạng JPG, PNG hoặc WEBP, tối đa 2MB</div>
+                  </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label small fw-semibold text-secondary">Họ và tên đầy đủ <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="tenantFullname" required placeholder="Nguyễn Văn A">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label small fw-semibold text-secondary">Số điện thoại liên hệ <span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control" id="tenantPhone" required placeholder="0988123456">
+                  </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label small fw-semibold text-secondary">Email tài khoản (Cố định bởi BQL)</label>
+                    <input type="email" class="form-control bg-light" id="tenantEmail" readonly>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label small fw-semibold text-secondary">Số CCCD / CMND (Cố định theo HĐ)</label>
+                    <input type="text" class="form-control bg-light" id="tenantIdCard" readonly placeholder="001099xxxxxx">
+                  </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                  <div class="col-md-6">
+                    <label class="form-label small fw-semibold text-secondary">Quê quán thường trú</label>
+                    <input type="text" class="form-control" id="tenantHometown" placeholder="VD: Hà Nam, Thái Bình...">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label small fw-semibold text-secondary">Biển số xe gửi tại hầm</label>
+                    <input type="text" class="form-control" id="tenantLicensePlate" placeholder="VD: 29B1-12345">
+                  </div>
+                </div>
+
+                <!-- NÚT: #btnSaveProfile (Submit lưu hồ sơ) -->
+                <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm" id="btnSaveProfile">
+                  <i class="bi bi-save me-1"></i> Lưu thay đổi hồ sơ
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- CỘT ĐỔI MẬT KHẨU CỔNG CƯ DÂN -->
+          <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+              <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-shield-lock-fill text-primary me-2"></i>Đổi Mật Khẩu Đăng Nhập</h5>
+              <p class="text-muted small mb-4">Khuyến nghị đổi mật khẩu sau lần đăng nhập đầu tiên được BQL cấp.</p>
+
+              <!-- FORM: #tenantPasswordForm (Gửi POST backend/api/tenant/profile/change_password.php) -->
+              <form id="tenantPasswordForm">
+                <div class="mb-3">
+                  <label class="form-label small fw-semibold text-secondary">Mật khẩu hiện tại <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="tenantCurrentPassword" required placeholder="••••••••">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-semibold text-secondary">Mật khẩu mới <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="tenantNewPassword" required placeholder="••••••••" minlength="6">
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label small fw-semibold text-secondary">Xác nhận mật khẩu mới <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="tenantConfirmNewPassword" required placeholder="••••••••" minlength="6">
+                </div>
+
+                <!-- NÚT: #btnChangePassword (Submit đổi mật khẩu) -->
+                <button type="submit" class="btn btn-outline-primary w-100 py-2 fw-semibold" id="btnChangePassword">
+                  <i class="bi bi-key me-1"></i> Cập nhật mật khẩu mới
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/tenant/profile.js"></script>
+</body>
+</html>
+

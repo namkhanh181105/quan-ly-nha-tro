@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ Sơ Khách Hàng - CCMN</title>
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/public.css">
+</head>
+<body class="bg-light">
+
+  <!-- HEADER DÙNG CHUNG (Tự động nạp qua components.js từ components/public-header.html) -->
+  <div id="public-header"></div>
+
+  <!-- BANNER KHÁCH HÀNG -->
+  <div class="bg-white border-bottom py-3 mb-4">
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <img src="../assets/images/default-avatar.png" id="userAvatarImg" class="rounded-circle border" style="width: 60px; height: 60px; object-fit: cover;" alt="Avatar">
+          <div>
+            <h4 class="fw-bold mb-0 text-dark" id="userGreetingName">Khách hàng</h4>
+            <div class="text-muted small">Tài khoản khách hàng thành viên</div>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <!-- NÚT ĐIỀU HƯỚNG TỚI TRANG XEM LỊCH HẸN -->
+          <a href="bookings.html" class="btn btn-outline-primary btn-sm fw-semibold">
+            <i class="bi bi-calendar2-check me-1"></i> Lịch hẹn xem phòng của tôi
+          </a>
+          <!-- NÚT ĐĂNG XUẤT -->
+          <button class="btn btn-outline-danger btn-sm fw-semibold" id="btnLogoutUser">
+            <i class="bi bi-box-arrow-right me-1"></i> Đăng xuất
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container pb-5">
+    <div class="row g-4 justify-content-center">
+      <!-- CỘT CHỈNH SỬA THÔNG TIN CÁ NHÂN -->
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white mb-4">
+          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-person-lines-fill text-primary me-2"></i>Thông Tin Cá Nhân</h5>
+          <p class="text-muted small mb-4">Cập nhật thông tin liên lạc để ban quản lý có thể liên hệ nhanh chóng khi bạn đặt lịch xem phòng.</p>
+
+          <!-- FORM: #userProfileForm (Gửi POST backend/api/customer/profile/update.php) -->
+          <form id="userProfileForm">
+            <div class="mb-3">
+              <label class="form-label small fw-semibold text-secondary">Tên đăng nhập (Cố định)</label>
+              <input type="text" class="form-control bg-light" id="profileUsername" readonly>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold text-secondary">Họ và tên đầy đủ <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="profileFullname" required placeholder="Nguyễn Văn A">
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-secondary">Địa chỉ Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="profileEmail" required placeholder="email@gmail.com">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-secondary">Số điện thoại <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="profilePhone" required placeholder="0988123456">
+              </div>
+            </div>
+
+            <!-- NÚT: #btnSaveProfile (Submit form cập nhật hồ sơ) -->
+            <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm" id="btnSaveProfile">
+              <i class="bi bi-save me-1"></i> Lưu thay đổi hồ sơ
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- CỘT ĐỔI MẬT KHẨU TÀI KHOẢN -->
+      <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-shield-lock text-primary me-2"></i>Đổi Mật Khẩu</h5>
+          <p class="text-muted small mb-4">Mật khẩu mới cần có tối thiểu 6 ký tự để đảm bảo an toàn cho tài khoản của bạn.</p>
+
+          <!-- FORM: #userPasswordForm (Gửi POST backend/api/customer/profile/change_password.php) -->
+          <form id="userPasswordForm">
+            <div class="mb-3">
+              <label class="form-label small fw-semibold text-secondary">Mật khẩu hiện tại <span class="text-danger">*</span></label>
+              <input type="password" class="form-control" id="currentPassword" required placeholder="••••••••">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold text-secondary">Mật khẩu mới <span class="text-danger">*</span></label>
+              <input type="password" class="form-control" id="newPassword" required placeholder="••••••••" minlength="6">
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label small fw-semibold text-secondary">Xác nhận mật khẩu mới <span class="text-danger">*</span></label>
+              <input type="password" class="form-control" id="confirmNewPassword" required placeholder="••••••••" minlength="6">
+            </div>
+
+            <!-- NÚT: #btnChangePassword (Submit form đổi mật khẩu) -->
+            <button type="submit" class="btn btn-outline-primary w-100 py-2 fw-semibold" id="btnChangePassword">
+              <i class="bi bi-key me-1"></i> Đổi mật khẩu
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER DÙNG CHUNG -->
+  <div id="public-footer"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/customer/profile.js"></script>
+</body>
+</html>
+

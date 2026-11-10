@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Khu Vực - BQL Nhà Trọ CCMN</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-wrapper">
+    <div id="admin-sidebar"></div>
+
+    <div class="admin-main">
+      <div id="admin-header"></div>
+
+      <main class="admin-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1">Danh Mục Khu Vực</h4>
+            <p class="text-muted small mb-0">Quản lý các quận/huyện, địa bàn tòa nhà chung cư mini tọa lạc</p>
+          </div>
+          <div>
+            <!-- NÚT: #btnAddLocation (Mở modal thêm khu vực mới) -->
+            <button class="btn btn-primary" id="btnAddLocation">
+              <i class="bi bi-plus-circle me-1"></i> Thêm khu vực
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover table-custom" id="locationsTable">
+            <thead>
+              <tr>
+                <th style="width: 60px;">ID</th>
+                <th>Tên khu vực (Quận/Huyện)</th>
+                <th>Đường dẫn tĩnh (Slug)</th>
+                <th>Thành phố</th>
+                <th>Số lượng phòng</th>
+                <th style="width: 120px;" class="text-center">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="locationsTableBody">
+              <tr>
+                <td colspan="6" class="text-center py-4 text-muted">
+                  <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL THÊM / SỬA KHU VỰC (#locationModal) -->
+  <div class="modal fade" id="locationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="locationForm" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title fw-bold" id="locationModalTitle">Thêm khu vực mới</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="locationId" name="id">
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Tên khu vực <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="locationName" name="name" required placeholder="VD: Quận Cầu Giấy">
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Slug (Tùy chọn, tự sinh nếu để trống)</label>
+              <input type="text" class="form-control" id="locationSlug" name="slug" placeholder="quan-cau-giay">
+            </div>
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Thành phố <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="locationCity" name="city" required value="Hà Nội">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary" id="btnSaveLocation">
+              <i class="bi bi-save me-1"></i> Lưu khu vực
+            </button>
+          </div>
+        </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/admin/locations.js"></script>
+</body>
+</html>
+

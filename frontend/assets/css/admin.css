@@ -1,0 +1,155 @@
+/**
+ * ============================================================================
+ * STYLES GIAO DIỆN QUẢN TRỊ (ADMIN CSS)
+ * ============================================================================
+ * Thiết kế bảng điều khiển chuyên nghiệp, Sidebar cố định, Topbar linh hoạt,
+ * Thẻ thống kê Dashboard, bảng quản lý dữ liệu Bootstrap và biểu mẫu.
+ */
+
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar quản trị */
+.admin-sidebar {
+  width: var(--sidebar-width);
+  background: #0f172a;
+  color: #94a3b8;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.admin-sidebar-brand {
+  padding: 20px 24px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.admin-nav {
+  padding: 15px 0;
+  list-style: none;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.admin-nav-item {
+  margin-bottom: 2px;
+}
+
+.admin-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.admin-nav-link:hover,
+.admin-nav-link.active {
+  color: #ffffff;
+  background: #1e293b;
+  border-left: 4px solid var(--primary);
+}
+
+.admin-nav-link i {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Khu vực nội dung chính */
+.admin-main {
+  margin-left: var(--sidebar-width);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  min-width: 0;
+}
+
+/* Header Topbar */
+.admin-header {
+  height: 65px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+
+.admin-content {
+  padding: 28px;
+  flex-grow: 1;
+}
+
+/* Thẻ thống kê Dashboard */
+.stat-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+.stat-icon-blue   { background: #eff6ff; color: #2563eb; }
+.stat-icon-green  { background: #d1fae5; color: #059669; }
+.stat-icon-orange { background: #fef3c7; color: #d97706; }
+.stat-icon-red    { background: #fee2e2; color: #dc2626; }
+.stat-icon-purple { background: #f3e8ff; color: #7c3aed; }
+
+/* Bảng dữ liệu */
+.table-responsive {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+.table-custom {
+  margin-bottom: 0;
+}
+.table-custom th {
+  background: #f1f5f9;
+  font-weight: 600;
+  color: #475569;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+.table-custom td {
+  padding: 14px 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+}
+

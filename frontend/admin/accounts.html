@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài Khoản Quản Trị - BQL CCMN</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-wrapper">
+    <div id="admin-sidebar"></div>
+
+    <div class="admin-main">
+      <div id="admin-header"></div>
+
+      <main class="admin-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1">Phân Quyền &amp; Tài Khoản Quản Trị</h4>
+            <p class="text-muted small mb-0">Quản lý các tài khoản Ban Quản Lý (Chức năng dành riêng cho Superadmin)</p>
+          </div>
+          <div>
+            <!-- NÚT: #btnAddAccount (Mở modal thêm tài khoản quản trị) -->
+            <button class="btn btn-primary" id="btnAddAccount">
+              <i class="bi bi-person-plus-fill me-1"></i> Thêm quản trị viên
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover table-custom" id="accountsTable">
+            <thead>
+              <tr>
+                <th style="width: 60px;">ID</th>
+                <th>Tên đăng nhập &amp; Họ tên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Vai trò phân quyền</th>
+                <th>Lần đăng nhập cuối</th>
+                <th style="width: 120px;" class="text-center">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="accountsTableBody">
+              <tr>
+                <td colspan="7" class="text-center py-4 text-muted">
+                  <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải danh sách tài khoản...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL THÊM / SỬA TÀI KHOẢN ADMIN (#accountModal) -->
+  <div class="modal fade" id="accountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="accountForm" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title fw-bold" id="accountModalTitle">Thêm quản trị viên mới</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="accId">
+            <div class="mb-3" id="accUsernameGroup">
+              <label class="form-label small fw-semibold">Tên đăng nhập <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="accUsername" required placeholder="admin_tuan">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Họ và tên đầy đủ <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="accFullname" required placeholder="Nguyễn Văn Tuấn">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Email quản trị <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="accEmail" required placeholder="tuan.nv@ccmn.vn">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Số điện thoại liên hệ</label>
+              <input type="tel" class="form-control" id="accPhone" placeholder="0988123456">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Vai trò phân quyền <span class="text-danger">*</span></label>
+              <select class="form-select" id="accRole" required>
+                <option value="admin">Quản trị viên (admin)</option>
+                <option value="superadmin">Superadmin (Toàn quyền)</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold" id="accPasswordLabel">Mật khẩu đăng nhập <span class="text-danger">*</span></label>
+              <input type="password" class="form-control" id="accPassword" placeholder="••••••••">
+              <div class="form-text small" id="accPasswordHelp">Mật khẩu mã hóa BCRYPT an toàn. Khi sửa, để trống nếu không đổi mật khẩu.</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary" id="btnSaveAccount">
+              <i class="bi bi-save me-1"></i> Lưu tài khoản
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/admin/accounts.js"></script>
+</body>
+</html>
+

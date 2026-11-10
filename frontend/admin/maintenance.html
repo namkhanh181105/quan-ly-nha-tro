@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yêu Cầu Sửa Chữa &amp; Bảo Trì - BQL CCMN</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-wrapper">
+    <div id="admin-sidebar"></div>
+
+    <div class="admin-main">
+      <div id="admin-header"></div>
+
+      <main class="admin-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1">Quản Lý Yêu Cầu Sửa Chữa &amp; Bảo Trì</h4>
+            <p class="text-muted small mb-0">Tiếp nhận báo hỏng điều hòa, điện nước, khóa cửa từ cư dân, phân công kỹ thuật viên và theo dõi xử lý</p>
+          </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-body p-3">
+            <form id="maintenanceFilterForm" class="row g-2 align-items-center">
+              <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="filterKeyword" placeholder="Mã phiếu, số phòng, tên cư dân...">
+              </div>
+              <div class="col-md-2">
+                <select class="form-select form-select-sm" id="filterCategory">
+                  <option value="">-- Danh mục sự cố --</option>
+                  <option value="dieuhoa">Điều hòa</option>
+                  <option value="dien">Hệ thống điện &amp; Đèn</option>
+                  <option value="nuoc">Đường nước &amp; Thiết bị vệ sinh</option>
+                  <option value="khoacua">Khóa cửa &amp; Thẻ từ</option>
+                  <option value="thietbi">Thiết bị gia dụng</option>
+                  <option value="khac">Khác</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <select class="form-select form-select-sm" id="filterUrgency">
+                  <option value="">-- Mức độ khẩn cấp --</option>
+                  <option value="normal">Bình thường</option>
+                  <option value="urgent">Khẩn cấp</option>
+                  <option value="emergency">Cực kỳ khẩn cấp</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <select class="form-select form-select-sm" id="filterStatus">
+                  <option value="">-- Trạng thái tiến độ --</option>
+                  <option value="pending">Chờ tiếp nhận</option>
+                  <option value="processing">Đang xử lý / sửa</option>
+                  <option value="completed">Đã hoàn thành</option>
+                  <option value="cancelled">Đã hủy</option>
+                </select>
+              </div>
+              <div class="col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary btn-sm flex-grow-1"><i class="bi bi-funnel me-1"></i> Lọc</button>
+                <button type="button" class="btn btn-light btn-sm border" id="btnResetFilter"><i class="bi bi-arrow-counterclockwise"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover table-custom" id="maintTable">
+            <thead>
+              <tr>
+                <th>Mã phiếu</th>
+                <th>Phòng &amp; Cư dân</th>
+                <th>Sự cố &amp; Mô tả</th>
+                <th>Mức độ</th>
+                <th>Thời gian thuận tiện</th>
+                <th>Kỹ thuật viên</th>
+                <th>Trạng thái</th>
+                <th style="width: 110px;" class="text-center">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="maintTableBody">
+              <tr>
+                <td colspan="8" class="text-center py-4 text-muted">
+                  <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải danh sách sự cố...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div class="text-muted small" id="paginationInfo">Hiển thị 0 / 0 phiếu</div>
+          <nav><ul class="pagination pagination-sm mb-0" id="paginationList"></ul></nav>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL ĐIỀU PHỐI VÀ CẬP NHẬT TIẾN ĐỘ BẢO TRÌ (#ticketModal) -->
+  <div class="modal fade" id="ticketModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="ticketActionForm" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title fw-bold" id="ticketModalTitle">Điều phối &amp; Xử lý sự cố</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="actionTicketId">
+            <div class="p-3 bg-light rounded border mb-3 small" id="ticketDetailsBox"></div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Kỹ thuật viên / Thợ phụ trách</label>
+              <input type="text" class="form-control" id="actionTechnician" placeholder="VD: KTV Tuấn (0912 345 678) hoặc BQL KhánhKaKa">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Trạng thái xử lý <span class="text-danger">*</span></label>
+              <select class="form-select" id="actionTicketStatus" required>
+                <option value="pending">Chờ tiếp nhận (pending)</option>
+                <option value="processing">Đang sửa chữa (processing)</option>
+                <option value="completed">Đã hoàn thành sửa chữa (completed)</option>
+                <option value="cancelled">Hủy bỏ yêu cầu (cancelled)</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Ghi chú kết quả xử lý của BQL</label>
+              <textarea class="form-control" id="actionAdminNotes" rows="3" placeholder="Đã vệ sinh lưới lọc, thay 4 viên pin..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary" id="btnSaveTicket">
+              <i class="bi bi-save me-1"></i> Lưu cập nhật
+            </button>
+          </div>
+        </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/admin/maintenance.js"></script>
+</body>
+</html>
+

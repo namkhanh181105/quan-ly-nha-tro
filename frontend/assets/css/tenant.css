@@ -1,0 +1,126 @@
+/**
+ * ============================================================================
+ * STYLES CỔNG CƯ DÂN (TENANT PORTAL CSS)
+ * ============================================================================
+ * Giao diện thân thiện, hiện đại cho cư dân xem phòng, tra cứu hóa đơn,
+ * thanh toán online, báo hỏng thiết bị và theo dõi hợp đồng.
+ */
+
+.tenant-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.tenant-sidebar {
+  width: var(--sidebar-width);
+  background: #1e293b;
+  color: #94a3b8;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.tenant-sidebar-brand {
+  padding: 20px 24px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #334155;
+}
+
+.tenant-nav {
+  padding: 15px 0;
+  list-style: none;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.tenant-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.tenant-nav-link:hover,
+.tenant-nav-link.active {
+  color: #ffffff;
+  background: #334155;
+  border-left: 4px solid #10b981;
+}
+
+.tenant-nav-link i {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.tenant-main {
+  margin-left: var(--sidebar-width);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  min-width: 0;
+}
+
+.tenant-header {
+  height: 65px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+
+.tenant-content {
+  padding: 28px;
+  flex-grow: 1;
+}
+
+/* Khung tải ảnh biên lai chuyển khoản */
+.proof-upload-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.proof-upload-box:hover {
+  border-color: var(--primary);
+  background: #eff6ff;
+}
+
+/* Thẻ thông báo */
+.notification-card {
+  border-left: 4px solid var(--primary);
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: var(--card-shadow);
+}
+.notification-card.unread {
+  background: #f0fdf4;
+  border-left-color: var(--success);
+}
+

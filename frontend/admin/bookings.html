@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch Hẹn Xem Phòng - BQL CCMN</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-wrapper">
+    <div id="admin-sidebar"></div>
+
+    <div class="admin-main">
+      <div id="admin-header"></div>
+
+      <main class="admin-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1">Quản Lý Lịch Hẹn Xem Phòng</h4>
+            <p class="text-muted small mb-0">Tiếp nhận yêu cầu xem phòng từ khách hàng, xác nhận lịch hẹn và ghi chú liên hệ</p>
+          </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-body p-3">
+            <form id="bookingFilterForm" class="row g-2 align-items-center">
+              <div class="col-md-5">
+                <input type="text" class="form-control form-control-sm" id="filterKeyword" placeholder="Tìm tên khách, số điện thoại, số phòng...">
+              </div>
+              <div class="col-md-4">
+                <select class="form-select form-select-sm" id="filterStatus">
+                  <option value="">-- Tất cả trạng thái --</option>
+                  <option value="pending">Chờ xử lý (pending)</option>
+                  <option value="contacted">Đã liên hệ (contacted)</option>
+                  <option value="approved">Đã xác nhận hẹn (approved)</option>
+                  <option value="cancelled">Đã hủy (cancelled)</option>
+                </select>
+              </div>
+              <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary btn-sm flex-grow-1"><i class="bi bi-funnel me-1"></i> Lọc dữ liệu</button>
+                <button type="button" class="btn btn-light btn-sm border" id="btnResetFilter"><i class="bi bi-arrow-counterclockwise"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover table-custom" id="bookingsTable">
+            <thead>
+              <tr>
+                <th style="width: 60px;">ID</th>
+                <th>Khách hàng &amp; SĐT</th>
+                <th>Phòng đăng ký</th>
+                <th>Ngày hẹn xem</th>
+                <th>Ghi chú của khách</th>
+                <th>Trạng thái</th>
+                <th>Thời gian gửi</th>
+                <th style="width: 120px;" class="text-center">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsTableBody">
+              <tr>
+                <td colspan="8" class="text-center py-4 text-muted">
+                  <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải lịch hẹn...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div class="text-muted small" id="paginationInfo">Hiển thị 0 / 0 lịch hẹn</div>
+          <nav><ul class="pagination pagination-sm mb-0" id="paginationList"></ul></nav>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL XỬ LÝ LỊCH HẸN (#bookingActionModal) -->
+  <div class="modal fade" id="bookingActionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="bookingActionForm" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title fw-bold">Cập nhật trạng thái lịch hẹn</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="actionBookingId">
+            <div class="alert alert-light border small mb-3" id="bookingCustomerInfo"></div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Trạng thái xử lý <span class="text-danger">*</span></label>
+              <select class="form-select" id="actionBookingStatus" required>
+                <option value="pending">Chờ xử lý</option>
+                <option value="contacted">Đã liên hệ điện thoại</option>
+                <option value="approved">Đã xác nhận giờ xem phòng</option>
+                <option value="cancelled">Khách đã hủy lịch</option>
+              </select>
+              <div class="form-text small">Duyệt lịch hẹn chỉ xác nhận thời gian xem, không tự động chuyển trạng thái phòng thành đã thuê.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Ghi chú trao đổi thêm</label>
+              <textarea class="form-control" id="actionBookingNote" rows="3" placeholder="Đã gọi điện lúc 10h hẹn khách 17h chiều qua xem phòng..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary" id="btnSaveBookingStatus">
+              <i class="bi bi-save me-1"></i> Lưu cập nhật
+            </button>
+          </div>
+        </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/admin/bookings.js"></script>
+</body>
+</html>
+

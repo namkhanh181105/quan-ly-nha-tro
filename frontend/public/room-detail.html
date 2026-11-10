@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi Tiết Phòng Trọ - Hệ Thống CCMN</title>
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/public.css">
+</head>
+<body class="bg-light">
+
+  <!-- HEADER DÙNG CHUNG (Tự động nạp qua components.js từ components/public-header.html) -->
+  <div id="public-header"></div>
+
+  <!-- BREADCRUMB & TIÊU ĐỀ PHÒNG -->
+  <div class="bg-white border-bottom py-3 mb-4">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-1 small">
+          <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Trang chủ</a></li>
+          <li class="breadcrumb-item"><a href="rooms.html" class="text-decoration-none">Danh sách phòng</a></li>
+          <li class="breadcrumb-item active text-dark fw-semibold" id="breadcrumbRoomName" aria-current="page">Chi tiết phòng</li>
+        </ol>
+      </nav>
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+          <h2 class="fw-bold mb-1" id="detailRoomTitle">
+            <span class="spinner-border spinner-border-sm text-primary me-2"></span> Đang tải thông tin phòng...
+          </h2>
+          <div class="text-muted small" id="detailRoomSubtitle">
+            <i class="bi bi-geo-alt text-danger me-1"></i> <span id="detailLocationText">Đang tải địa chỉ...</span>
+          </div>
+        </div>
+        <div>
+          <span class="badge bg-success fs-5 px-3 py-2 fw-bold" id="detailPriceBadge">0 đ/tháng</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container pb-5">
+    <div class="row g-4">
+      <!-- CỘT NỘI DUNG CHÍNH (ẢNH, THÔNG SỐ, MÔ TẢ) -->
+      <div class="col-lg-8">
+        <!-- KHU VỰC SLIDER / CAROUSEL ẢNH PHÒNG (#roomCarousel) -->
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+          <div id="roomCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators" id="carouselIndicators">
+              <!-- Render động -->
+            </div>
+            <div class="carousel-inner" id="carouselInner" style="max-height: 480px; background-color: #000;">
+              <div class="carousel-item active text-center py-5">
+                <div class="spinner-border text-light"></div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Trước</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#roomCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Sau</span>
+            </button>
+          </div>
+
+          <!-- DANH SÁCH ẢNH THUMBNAIL THU NHỎ (#roomThumbnailsContainer) -->
+          <div class="p-3 bg-white border-top">
+            <div class="d-flex gap-2 overflow-auto py-1" id="roomThumbnailsContainer">
+              <!-- Render ảnh thu nhỏ -->
+            </div>
+          </div>
+        </div>
+
+        <!-- BẢNG THÔNG SỐ KỸ THUẬT PHÒNG -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-info-circle-fill text-primary me-2"></i>Thông Số Cơ Bản</h5>
+          <div class="row g-3">
+            <div class="col-sm-6 col-md-4">
+              <div class="p-3 bg-light rounded-3">
+                <div class="text-muted small">Diện tích sử dụng</div>
+                <div class="fw-bold fs-5 text-dark" id="detailArea">-- m²</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+              <div class="p-3 bg-light rounded-3">
+                <div class="text-muted small">Số người ở tối đa</div>
+                <div class="fw-bold fs-5 text-dark" id="detailMaxOccupants">-- người</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+              <div class="p-3 bg-light rounded-3">
+                <div class="text-muted small">Vị trí tầng</div>
+                <div class="fw-bold fs-5 text-dark" id="detailFloor">Tầng --</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+              <div class="p-3 bg-light rounded-3">
+                <div class="text-muted small">Đơn giá điện</div>
+                <div class="fw-bold fs-5 text-primary" id="detailElectricityRate">-- đ/kWh</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+              <div class="p-3 bg-light rounded-3">
+                <div class="text-muted small">Đơn giá nước</div>
+                <div class="fw-bold fs-5 text-primary" id="detailWaterRate">-- đ/khối</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+              <div class="p-3 bg-light rounded-3">
+                <div class="text-muted small">Trạng thái phòng</div>
+                <div class="fw-bold fs-5" id="detailStatus">--</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TIỆN NGHI PHÒNG -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-stars text-warning me-2"></i>Tiện Nghi &amp; Nội Thất Bàn Giao</h5>
+          <div class="d-flex flex-wrap gap-2" id="detailAmenitiesContainer">
+            <span class="text-muted">Đang tải danh sách tiện nghi...</span>
+          </div>
+        </div>
+
+        <!-- MÔ TẢ CHI TIẾT -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-file-text-fill text-primary me-2"></i>Mô Tả Chi Tiết Phòng</h5>
+          <div class="text-secondary lh-lg" id="detailDescription">
+            Đang tải mô tả...
+          </div>
+        </div>
+      </div>
+
+      <!-- CỘT BÊN PHẢI: FORM ĐẶT LỊCH XEM PHÒNG & THÔNG TIN LIÊN HỆ -->
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4 sticky-top mb-4" style="top: 85px;" id="booking">
+          <div class="text-center mb-4">
+            <div class="icon-circle bg-primary-subtle text-primary mx-auto mb-2">
+              <i class="bi bi-calendar-heart fs-3"></i>
+            </div>
+            <h5 class="fw-bold mb-1">Đặt Lịch Xem Phòng Miễn Phí</h5>
+            <p class="text-muted small mb-0">Chọn ngày giờ thuận tiện, quản lý tòa nhà sẽ liên hệ đón bạn dẫn xem phòng.</p>
+          </div>
+
+          <!-- FORM: #bookingForm (Gửi FormData/JSON tới POST backend/api/public/bookings/create.php) -->
+          <form id="bookingForm">
+            <input type="hidden" id="bookingRoomId">
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold text-secondary">Họ và tên của bạn <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="bookingCustomerName" required placeholder="Nguyễn Văn A">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold text-secondary">Số điện thoại liên hệ <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="bookingPhone" required placeholder="0988123456">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold text-secondary">Email nhận thông báo (tùy chọn)</label>
+              <input type="email" class="form-control" id="bookingEmail" placeholder="email@gmail.com">
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-7">
+                <label class="form-label small fw-semibold text-secondary">Ngày muốn xem <span class="text-danger">*</span></label>
+                <input type="date" class="form-control" id="bookingDate" required>
+              </div>
+              <div class="col-5">
+                <label class="form-label small fw-semibold text-secondary">Giờ xem <span class="text-danger">*</span></label>
+                <input type="time" class="form-control" id="bookingTime" required value="09:00">
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label small fw-semibold text-secondary">Ghi chú thêm</label>
+              <textarea class="form-control" id="bookingNote" rows="2" placeholder="VD: Muốn xem thêm chỗ để xe, ban công phơi đồ..."></textarea>
+            </div>
+
+            <!-- NÚT: #btnSubmitBooking (Gửi yêu cầu đặt lịch hẹn) -->
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm" id="btnSubmitBooking">
+              <i class="bi bi-calendar-check me-1"></i> Xác nhận đặt lịch xem phòng
+            </button>
+          </form>
+
+          <hr class="my-4">
+
+          <!-- THÔNG TIN LIÊN HỆ TRỰC TIẾP -->
+          <div class="text-center">
+            <div class="small text-muted mb-2">Hoặc liên hệ hotline để được hỗ trợ tức thì:</div>
+            <a href="tel:0988888999" class="btn btn-outline-success w-100 fw-bold">
+              <i class="bi bi-telephone-fill me-1"></i> Hotline: 0988.888.999
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER DÙNG CHUNG (Tự động nạp qua components.js từ components/public-footer.html) -->
+  <div id="public-footer"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/public/room-detail.js"></script>
+</body>
+</html>
+

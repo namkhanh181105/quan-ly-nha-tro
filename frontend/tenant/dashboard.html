@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tổng Quan Cư Dân - CCMN</title>
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/tenant.css">
+</head>
+<body>
+  <div class="tenant-wrapper">
+    <!-- SIDEBAR CƯ DÂN (Nạp qua components.js từ components/tenant-sidebar.html) -->
+    <div id="tenant-sidebar"></div>
+
+    <div class="tenant-main">
+      <!-- HEADER CƯ DÂN (Nạp qua components.js từ components/tenant-header.html) -->
+      <div id="tenant-header"></div>
+
+      <main class="tenant-content">
+        <!-- LỜI CHÀO & TỔNG QUAN -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1" id="dashWelcomeTitle">Xin chào, Cư dân!</h4>
+            <p class="text-muted small mb-0">Theo dõi thông tin phòng thuê, hóa đơn và yêu cầu hỗ trợ tòa nhà</p>
+          </div>
+          <div>
+            <!-- NÚT: #btnQuickMaintenance (Chuyển trang báo hỏng) -->
+            <a href="maintenance.html" class="btn btn-outline-danger fw-semibold btn-sm">
+              <i class="bi bi-tools me-1"></i> Báo hỏng thiết bị
+            </a>
+          </div>
+        </div>
+
+        <!-- CẢNH BÁO HÓA ĐƠN CẦN THANH TOÁN (NẾU CÓ) (#dashInvoiceAlert) -->
+        <div id="dashInvoiceAlert" class="mb-4 d-none">
+          <!-- Render thông báo hóa đơn nợ bằng JS -->
+        </div>
+
+        <!-- 4 THẺ THỐNG KÊ NHANH -->
+        <div class="row g-3 mb-4">
+          <!-- THẺ 1: PHÒNG THUÊ -->
+          <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-primary-subtle text-primary me-3 flex-shrink-0" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <i class="bi bi-door-closed fs-4"></i>
+                </div>
+                <div>
+                  <div class="text-muted small">Phòng đang thuê</div>
+                  <div class="fs-5 fw-bold text-dark" id="dashRoomNumber">Đang tải...</div>
+                  <div class="small text-muted" id="dashRoomCategory">--</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- THẺ 2: GIÁ THUÊ THÁNG -->
+          <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-success-subtle text-success me-3 flex-shrink-0" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <i class="bi bi-cash-stack fs-4"></i>
+                </div>
+                <div>
+                  <div class="text-muted small">Giá thuê hàng tháng</div>
+                  <div class="fs-5 fw-bold text-success" id="dashRoomPrice">0 đ</div>
+                  <div class="small text-muted" id="dashDeposit">Tiền cọc: 0 đ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- THẺ 3: THỜI HẠN HỢP ĐỒNG -->
+          <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-warning-subtle text-warning-emphasis me-3 flex-shrink-0" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <i class="bi bi-calendar-range fs-4"></i>
+                </div>
+                <div>
+                  <div class="text-muted small">Thời hạn hợp đồng</div>
+                  <div class="fs-6 fw-bold text-dark" id="dashContractPeriod">Đang tải...</div>
+                  <div class="small text-muted" id="dashContractDays">--</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- THẺ 4: YÊU CẦU GIA HẠN / RỜI ĐI -->
+          <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
+              <div class="d-flex align-items-center">
+                <div class="icon-circle bg-info-subtle text-info me-3 flex-shrink-0" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                  <i class="bi bi-send-check fs-4"></i>
+                </div>
+                <div>
+                  <div class="text-muted small">Yêu cầu gia hạn / trả</div>
+                  <div class="fw-bold" id="dashExtensionStatus">Bình thường</div>
+                  <div class="small"><a href="contract.html" class="text-decoration-none">Xem hợp đồng &raquo;</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- BÊN TRÁI: HÓA ĐƠN GẦN NHẤT & LỊCH SỬ NỘP TIỀN -->
+          <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-receipt text-primary me-2"></i>Hóa Đơn Tiền Phòng Gần Nhất</h5>
+                <a href="invoices.html" class="small text-decoration-none fw-semibold">Xem tất cả hóa đơn &raquo;</a>
+              </div>
+
+              <div id="dashLatestInvoiceContainer">
+                <div class="text-center py-4 text-muted">
+                  <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang kiểm tra hóa đơn...
+                </div>
+              </div>
+            </div>
+
+            <!-- DANH SÁCH BÁO HỎNG GẦN ĐÂY -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-tools text-danger me-2"></i>Yêu Cầu Sửa Chữa Thiết Bị</h5>
+                <a href="maintenance.html" class="small text-decoration-none fw-semibold">Xem tất cả &raquo;</a>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover table-sm align-middle" id="dashMaintenanceTable">
+                  <thead>
+                    <tr>
+                      <th>Nội dung sự cố</th>
+                      <th>Ngày báo</th>
+                      <th>Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashMaintenanceTableBody">
+                    <tr>
+                      <td colspan="3" class="text-center py-3 text-muted">Đang tải danh sách sự cố...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- BÊN PHẢI: BẢNG TIN THÔNG BÁO TÒA NHÀ -->
+          <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-megaphone-fill text-warning me-2"></i>Thông Báo Tòa Nhà</h5>
+                <a href="notifications.html" class="small text-decoration-none fw-semibold">Tất cả thông báo &raquo;</a>
+              </div>
+
+              <div class="list-group list-group-flush" id="dashNotificationsContainer">
+                <div class="text-center py-4 text-muted">
+                  <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải thông báo...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/tenant/dashboard.js"></script>
+</body>
+</html>
+

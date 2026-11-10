@@ -1,0 +1,10 @@
+# Chặn truy cập trực tiếp từ trình duyệt vào thư mục lưu minh chứng chuyển khoản
+# Chỉ cho phép xem qua API backend/api/storage/view_proof.php có kiểm tra quyền Admin hoặc Cư dân sở hữu hóa đơn
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order Allow,Deny
+    Deny from all
+</IfModule>
+

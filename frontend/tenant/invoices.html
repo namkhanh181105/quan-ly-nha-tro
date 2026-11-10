@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hóa Đơn &amp; Nộp Minh Chứng Thanh Toán - Cổng Cư Dân CCMN</title>
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/tenant.css">
+</head>
+<body>
+  <div class="tenant-wrapper">
+    <!-- SIDEBAR CƯ DÂN -->
+    <div id="tenant-sidebar"></div>
+
+    <div class="tenant-main">
+      <!-- HEADER CƯ DÂN -->
+      <div id="tenant-header"></div>
+
+      <main class="tenant-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1">Tra Cứu Hóa Đơn &amp; Nộp Minh Chứng Chuyển Khoản</h4>
+            <p class="text-muted small mb-0">Theo dõi công nợ hàng tháng, tải ảnh biên lai ngân hàng và kiểm tra kết quả duyệt</p>
+          </div>
+          <div>
+            <!-- NÚT: #btnReloadInvoices (Tải lại bảng hóa đơn) -->
+            <button class="btn btn-light border btn-sm fw-semibold" id="btnReloadInvoices">
+              <i class="bi bi-arrow-clockwise me-1"></i> Tải lại danh sách
+            </button>
+          </div>
+        </div>
+
+        <!-- THÔNG TIN CHUYỂN KHOẢN TÒA NHÀ -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-primary text-white mb-4">
+          <div class="row align-items-center g-3">
+            <div class="col-lg-8">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-bank fs-3 me-2"></i>
+                <h5 class="fw-bold mb-0">Thông Tin Tài Khoản Ngân Hàng Ban Quản Lý</h5>
+              </div>
+              <p class="small text-white-50 mb-3">
+                Cư dân chuyển khoản đúng số tài khoản và ghi rõ nội dung chuyển khoản để hệ thống đối soát nhanh chóng.
+              </p>
+              <div class="row g-2 small">
+                <div class="col-sm-6">
+                  Ngân hàng: <strong>MB BANK (Quân Đội)</strong><br>
+                  Số tài khoản: <strong class="fs-6 font-monospace text-warning">098888899999</strong>
+                </div>
+                <div class="col-sm-6">
+                  Chủ tài khoản: <strong>BAN QUAN LY CCMN THONG NHAT</strong><br>
+                  Cú pháp CK: <strong class="text-warning">[Số Phòng] [Họ Tên] Tien phong T[Tháng]</strong>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+              <span class="badge bg-light text-dark p-2 px-3 fw-semibold">
+                <i class="bi bi-shield-check text-success me-1"></i> Đối soát bảo mật 24/7
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BẢNG DANH SÁCH HÓA ĐƠN HÀNG THÁNG -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+          <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-receipt-cutoff text-primary me-2"></i>Lịch Sử Hóa Đơn Tiền Phòng</h5>
+
+          <div class="table-responsive">
+            <table class="table table-hover table-custom align-middle" id="tenantInvoicesTable">
+              <thead>
+                <tr>
+                  <th style="width: 60px;">ID</th>
+                  <th>Kỳ hóa đơn</th>
+                  <th>Tiền phòng</th>
+                  <th>Điện / Nước</th>
+                  <th>Dịch vụ khác</th>
+                  <th>Tổng cộng</th>
+                  <th>Đã trả / Nợ</th>
+                  <th>Trạng thái</th>
+                  <th>Minh chứng</th>
+                  <th class="text-center" style="width: 140px;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="tenantInvoicesTableBody">
+                <tr>
+                  <td colspan="10" class="text-center py-4 text-muted">
+                    <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải lịch sử hóa đơn...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL 1: TẢI LÊN MINH CHỨNG CHUYỂN KHOẢN (#uploadProofModal) -->
+  <div class="modal fade" id="uploadProofModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="uploadProofForm" enctype="multipart/form-data">
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold" id="uploadProofModalTitle">Nộp Minh Chứng Chuyển Khoản</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="proofInvoiceId">
+
+            <div class="alert alert-info py-2 small mb-3" id="proofInvoiceSummary">
+              Hóa đơn tháng --: Tổng tiền -- đ
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Chọn ảnh chụp màn hình chuyển khoản (Bill / Biên lai) <span class="text-danger">*</span></label>
+              <input type="file" class="form-control" id="proofFile" accept="image/png, image/jpeg, image/webp" required>
+              <div class="form-text small">Định dạng JPG, PNG hoặc WEBP, tối đa 5MB.</div>
+            </div>
+
+            <!-- XEM TRƯỚC ẢNH MINH CHỨNG -->
+            <div class="text-center my-3 d-none" id="proofPreviewBox">
+              <img src="" id="proofPreviewImg" class="img-fluid rounded-3 border shadow-sm" style="max-height: 250px;" alt="Minh chứng">
+            </div>
+
+            <div class="small text-muted">
+              <i class="bi bi-info-circle me-1 text-primary"></i> Sau khi nộp, trạng thái minh chứng sẽ chuyển sang <strong>Chờ BQL duyệt</strong>. Khi thủ quỹ đối soát nhận đủ tiền, hóa đơn sẽ tự động hoàn tất.
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+            <!-- NÚT: #btnSubmitProof (Submit form tải lên bill) -->
+            <button type="submit" class="btn btn-primary" id="btnSubmitProof">
+              <i class="bi bi-cloud-arrow-up-fill me-1"></i> Tải lên minh chứng
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: XEM CHI TIẾT TÍNH TIỀN HÓA ĐƠN (#invoiceDetailModal) -->
+  <div class="modal fade" id="invoiceDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="invDetailModalTitle">Chi Tiết Hóa Đơn</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="invDetailModalBody">
+          <div class="text-center py-4 text-muted">Đang tải dữ liệu...</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/tenant/invoices.js"></script>
+</body>
+</html>
+

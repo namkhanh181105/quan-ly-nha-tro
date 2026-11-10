@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ Thống Cho Thuê Chung Cư Mini &amp; Phòng Trọ Cao Cấp</title>
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/public.css">
+</head>
+<body>
+
+  <!-- HEADER DÙNG CHUNG (Tự động nạp qua components.js từ components/public-header.html) -->
+  <div id="public-header"></div>
+
+  <!-- HERO BANNER & BỘ LỌC TÌM KIẾM NHANH -->
+  <section class="hero-section text-white py-5 position-relative overflow-hidden">
+    <div class="container py-lg-5">
+      <div class="row align-items-center">
+        <div class="col-lg-8 mx-auto text-center mb-4">
+          <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 shadow-sm">
+            <i class="bi bi-stars me-1"></i> Không gian sống văn minh - Hiện đại - An toàn
+          </span>
+          <h1 class="display-4 fw-bold mb-3">Tìm Phòng Trọ &amp; Căn Hộ Mini Ưng Ý Ngay Hôm Nay</h1>
+          <p class="lead mb-4 text-light opacity-90">Hệ thống phòng trọ, studio full nội thất, khóa vân tay, camera an ninh 24/7, giờ giấc tự do không chung chủ.</p>
+        </div>
+      </div>
+
+      <!-- FORM TÌM KIẾM NHANH TRÊN HERO -->
+      <!-- FORM: #quickSearchForm (Bắt sự kiện submit để chuyển hướng sang rooms.html với query parameters) -->
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="card shadow-lg border-0 rounded-4 p-3 p-md-4 text-dark hero-search-box">
+            <form id="quickSearchForm" class="row g-3 align-items-end">
+              <div class="col-md-4">
+                <label class="form-label small fw-semibold text-secondary mb-1">
+                  <i class="bi bi-search me-1 text-primary"></i> Từ khóa / Mã phòng
+                </label>
+                <input type="text" class="form-control" id="quickKeyword" placeholder="VD: Studio ban công, P.201...">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label small fw-semibold text-secondary mb-1">
+                  <i class="bi bi-grid me-1 text-primary"></i> Loại phòng
+                </label>
+                <select class="form-select" id="quickCategory">
+                  <option value="">Tất cả loại phòng</option>
+                  <!-- JavaScript nạp danh mục động -->
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label small fw-semibold text-secondary mb-1">
+                  <i class="bi bi-geo-alt me-1 text-primary"></i> Khu vực
+                </label>
+                <select class="form-select" id="quickLocation">
+                  <option value="">Tất cả khu vực</option>
+                  <!-- JavaScript nạp khu vực động -->
+                </select>
+              </div>
+              <div class="col-md-2">
+                <!-- NÚT: #btnQuickSearch (Submit form tìm kiếm nhanh) -->
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold" id="btnQuickSearch">
+                  <i class="bi bi-search me-1"></i> Tìm ngay
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ĐIỂM NỔI BẬT / TIỆN ÍCH HỆ THỐNG -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <div class="row g-4 text-center">
+        <div class="col-md-3 col-6">
+          <div class="p-3 feature-card rounded-3">
+            <div class="icon-circle bg-primary-subtle text-primary mx-auto mb-3">
+              <i class="bi bi-fingerprint fs-2"></i>
+            </div>
+            <h6 class="fw-bold mb-1">Khóa Vân Tay &amp; Thẻ Từ</h6>
+            <p class="text-muted small mb-0">Tự do giờ giấc 24/7, an ninh tuyệt đối</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="p-3 feature-card rounded-3">
+            <div class="icon-circle bg-success-subtle text-success mx-auto mb-3">
+              <i class="bi bi-shield-check fs-2"></i>
+            </div>
+            <h6 class="fw-bold mb-1">PCCC Chuẩn Quy Chuẩn</h6>
+            <p class="text-muted small mb-0">Hệ thống báo khói, thang thoát hiểm riêng</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="p-3 feature-card rounded-3">
+            <div class="icon-circle bg-warning-subtle text-warning mx-auto mb-3">
+              <i class="bi bi-laptop fs-2"></i>
+            </div>
+            <h6 class="fw-bold mb-1">Cổng Cư Dân Online</h6>
+            <p class="text-muted small mb-0">Xem hóa đơn, báo hỏng, thanh toán tự động</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="p-3 feature-card rounded-3">
+            <div class="icon-circle bg-info-subtle text-info mx-auto mb-3">
+              <i class="bi bi-headset fs-2"></i>
+            </div>
+            <h6 class="fw-bold mb-1">Hỗ Trợ Kỹ Thuật 24/7</h6>
+            <p class="text-muted small mb-0">Xử lý sự cố điện nước trong vòng 2 giờ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHÒNG TRỌ NỔI BẬT MỚI NHẤT -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-semibold mb-2">Đề Xuất Nổi Bật</span>
+          <h2 class="fw-bold mb-0">Phòng Trống Sẵn Sàng Vào Ở</h2>
+        </div>
+        <!-- NÚT: Xem tất cả phòng (Chuyển trang rooms.html) -->
+        <a href="rooms.html" class="btn btn-outline-primary fw-semibold rounded-pill px-4">
+          Xem tất cả phòng <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      </div>
+
+      <!-- GRID PHÒNG NỔI BẬT ĐƯỢC JAVASCRIPT RENDER ĐỘNG (#featuredRoomsContainer) -->
+      <div class="row g-4" id="featuredRoomsContainer">
+        <div class="col-12 text-center py-5">
+          <div class="spinner-border text-primary" role="status"></div>
+          <p class="text-muted mt-2">Đang tải danh sách phòng nổi bật...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER DÙNG CHUNG (Tự động nạp qua components.js từ components/public-footer.html) -->
+  <div id="public-footer"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/public/home.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phát Thông Báo Cư Dân - BQL CCMN</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-wrapper">
+    <div id="admin-sidebar"></div>
+
+    <div class="admin-main">
+      <div id="admin-header"></div>
+
+      <main class="admin-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1">Bảng Tin &amp; Phát Thông Báo Cư Dân</h4>
+            <p class="text-muted small mb-0">Đăng thông báo nội quy chung toàn tòa nhà hoặc gửi thông báo riêng đến từng cư dân</p>
+          </div>
+          <div>
+            <!-- NÚT: #btnNewNotification (Mở modal tạo thông báo mới) -->
+            <button class="btn btn-primary" id="btnNewNotification">
+              <i class="bi bi-megaphone-fill me-1"></i> Phát thông báo mới
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover table-custom" id="notificationsTable">
+            <thead>
+              <tr>
+                <th style="width: 60px;">ID</th>
+                <th>Phạm vi gửi</th>
+                <th>Phân loại</th>
+                <th>Tiêu đề thông báo</th>
+                <th>Nội dung chi tiết</th>
+                <th>Thời gian phát</th>
+                <th style="width: 100px;" class="text-center">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="notificationsTableBody">
+              <tr>
+                <td colspan="7" class="text-center py-4 text-muted">
+                  <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải thông báo...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div class="text-muted small" id="paginationInfo">Hiển thị 0 / 0 thông báo</div>
+          <nav><ul class="pagination pagination-sm mb-0" id="paginationList"></ul></nav>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL TẠO THÔNG BÁO MỚI (#notificationModal) -->
+  <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="notificationForm" class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title fw-bold">Phát thông báo đến cư dân</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Phạm vi đối tượng nhận <span class="text-danger">*</span></label>
+              <select class="form-select" id="notifTargetType" name="target_type" required>
+                <option value="all">Toàn bộ cư dân (Thông báo chung toàn tòa nhà)</option>
+                <option value="individual">Gửi riêng cho một cư dân cụ thể</option>
+              </select>
+            </div>
+
+            <div class="mb-3" id="notifTenantGroup" style="display: none;">
+              <label class="form-label small fw-semibold">Chọn cư dân nhận <span class="text-danger">*</span></label>
+              <select class="form-select" id="notifTenantId" name="tenant_id">
+                <option value="">-- Chọn cư dân --</option>
+                <!-- Nạp qua JS -->
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Phân loại thông báo</label>
+              <select class="form-select" id="notifType" name="type">
+                <option value="general">Tin chung / Nội quy (general)</option>
+                <option value="invoice">Hóa đơn tiền nhà (invoice)</option>
+                <option value="maintenance">Sửa chữa / Bảo trì (maintenance)</option>
+                <option value="contract">Hợp đồng thuê (contract)</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Tiêu đề thông báo <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="notifTitle" name="title" required placeholder="VD: Lịch vệ sinh bể nước ngầm & bảo dưỡng thang máy">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">Nội dung chi tiết <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="notifContent" name="content" rows="4" required placeholder="Kính gửi quý cư dân, vào ngày..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary" id="btnSaveNotification">
+              <i class="bi bi-send me-1"></i> Phát thông báo
+            </button>
+          </div>
+        </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/admin/notifications.js"></script>
+</body>
+</html>
+

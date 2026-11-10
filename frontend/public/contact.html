@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liên Hệ Ban Quản Lý - Hệ Thống CCMN</title>
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/public.css">
+</head>
+<body class="bg-light">
+
+  <!-- HEADER DÙNG CHUNG (Tự động nạp qua components.js từ components/public-header.html) -->
+  <div id="public-header"></div>
+
+  <!-- BANNER ĐẦU TRANG -->
+  <div class="bg-primary text-white py-4 mb-4">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-1 text-white-50 small">
+          <li class="breadcrumb-item"><a href="index.html" class="text-white text-decoration-none">Trang chủ</a></li>
+          <li class="breadcrumb-item active text-white fw-semibold" aria-current="page">Liên hệ</li>
+        </ol>
+      </nav>
+      <h2 class="fw-bold mb-0">Liên Hệ Ban Quản Lý</h2>
+      <p class="text-white-50 mb-0 small">Chúng tôi luôn sẵn sàng lắng nghe mọi góp ý và giải đáp thắc mắc của bạn 24/7</p>
+    </div>
+  </div>
+
+  <div class="container pb-5">
+    <div class="row g-4">
+      <!-- CỘT THÔNG TIN LIÊN HỆ BÊN TRÁI -->
+      <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+          <h4 class="fw-bold mb-3 text-dark">Thông Tin Tòa Nhà &amp; BQL</h4>
+          <p class="text-muted small mb-4">
+            Quý khách có nhu cầu xem phòng trực tiếp, ký hợp đồng thuê hoặc cần hỗ trợ thông tin kỹ thuật, vui lòng liên hệ trực tiếp với chúng tôi:
+          </p>
+
+          <div class="d-flex align-items-start mb-4">
+            <div class="icon-circle bg-primary-subtle text-primary me-3 flex-shrink-0">
+              <i class="bi bi-geo-alt-fill fs-5"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-1">Địa chỉ văn phòng quản lý:</h6>
+              <p class="text-muted small mb-0">Số 123 Đường Cầu Giấy, Phường Quan Hoa, Quận Cầu Giấy, Hà Nội</p>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start mb-4">
+            <div class="icon-circle bg-success-subtle text-success me-3 flex-shrink-0">
+              <i class="bi bi-telephone-fill fs-5"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-1">Đường dây nóng (Hotline 24/7):</h6>
+              <p class="text-muted small mb-0">
+                <a href="tel:0988888999" class="text-decoration-none text-dark fw-bold">0988.888.999</a> (Xem phòng)<br>
+                <a href="tel:0912345678" class="text-decoration-none text-dark fw-bold">0912.345.678</a> (Kỹ thuật PCCC/Điện nước)
+              </p>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start mb-4">
+            <div class="icon-circle bg-warning-subtle text-warning-emphasis me-3 flex-shrink-0">
+              <i class="bi bi-envelope-fill fs-5"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-1">Hòm thư điện tử (Email):</h6>
+              <p class="text-muted small mb-0">
+                <a href="mailto:bql.ccmn@thongnhat.vn" class="text-decoration-none text-dark">bql.ccmn@thongnhat.vn</a>
+              </p>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start">
+            <div class="icon-circle bg-info-subtle text-info me-3 flex-shrink-0">
+              <i class="bi bi-clock-fill fs-5"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-1">Thời gian làm việc đón tiếp:</h6>
+              <p class="text-muted small mb-0">Thứ Hai - Chủ Nhật: Từ 08:00 đến 21:00 hàng ngày</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CỘT FORM GỬI LIÊN HỆ BÊN PHẢI -->
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+          <h4 class="fw-bold mb-2 text-dark">Gửi Tin Nhắn Cho Chúng Tôi</h4>
+          <p class="text-muted small mb-4">
+            Điền đầy đủ thông tin bên dưới, nhân viên chăm sóc khách hàng sẽ phản hồi lại cho bạn trong vòng 30 phút.
+          </p>
+
+          <!-- FORM: #contactForm (Gửi FormData/JSON tới POST backend/api/public/contacts/create.php) -->
+          <form id="contactForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-secondary">Họ và tên của bạn <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="contactName" required placeholder="Nguyễn Văn A">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-secondary">Số điện thoại liên hệ <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="contactPhone" required placeholder="0988123456">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-secondary">Địa chỉ Email</label>
+                <input type="email" class="form-control" id="contactEmail" placeholder="email@gmail.com">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold text-secondary">Tiêu đề cần hỗ trợ <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="contactSubject" required placeholder="Hỏi thuê phòng, báo sự cố...">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label small fw-semibold text-secondary">Nội dung chi tiết <span class="text-danger">*</span></label>
+                <textarea class="form-control" id="contactMessage" rows="4" required placeholder="Hãy mô tả cụ thể câu hỏi hoặc nhu cầu của bạn để chúng tôi phục vụ tốt nhất..."></textarea>
+              </div>
+
+              <div class="col-12 mt-4">
+                <!-- NÚT: #btnSubmitContact (Submit form gửi tin nhắn liên hệ) -->
+                <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm" id="btnSubmitContact">
+                  <i class="bi bi-send-fill me-1"></i> Gửi tin nhắn liên hệ
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER DÙNG CHUNG (Tự động nạp qua components.js từ components/public-footer.html) -->
+  <div id="public-footer"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/components.js"></script>
+  <script src="../assets/js/public/contact.js"></script>
+</body>
+</html>
+
